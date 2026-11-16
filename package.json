@@ -2,12 +2,13 @@
   "name": "eurostar-snap-watch",
   "version": "1.0.0",
   "private": true,
-  "description": "Watches the Eurostar Snap site for one travel date and emails when tickets go on sale.",
+  "description": "Tracks Eurostar Snap ticket releases and sell-outs on one route, with email alerts and a dashboard.",
   "type": "module",
   "scripts": {
-    "check": "node watch.mjs"
+    "scan": "node track.mjs"
   },
   "dependencies": {
+    "nodemailer": "^10.6.0",
     "playwright": "^1.65.1"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "route": {
+    "label": "Paris → Londres",
+    "origin": "8727100",
+    "destination": "7015400"
+  },
+  "adults": 2,
+  "target": {
+    "date": "2026-12-06",
+    "slot": "morning"
+  },
+  "dashboardUrl": "https://matrac73.github.io/eurostar-snap-watch/"
+}

@@ -2,59 +2,56 @@ name: Snap watch
 
 on:
   schedule:
-    # Written by set-trip.ps1 from trip.json (startDate to the day before the trip). Times are UTC.
-    - cron: '*/15 * 20-30 11 *'
-    - cron: '*/15 * 1-5 12 *'
+    # Every 15 minutes (UTC), off the top of the hour where GitHub's scheduler is busiest.
+    - cron: '7,22,37,52 * * * *'
   workflow_dispatch:
     inputs:
-      date:
-        description: 'Test on another date (YYYY-MM-DD): sends a [TEST] mail to the first recipient only'
-        required: false
+      test_mail:
+        description: 'Only send sample mails to the first recipient (no scan, nothing saved)'
+        type: boolean
+        default: false
 
 permissions:
-  contents: read
-  actions: write   # lets the watcher switch this workflow off once it has notified
+  contents: write   # the scan results are committed to the gh-pages branch
 
 concurrency:
   group: snap-watch
   cancel-in-progress: false
 
 jobs:
-  check:
+  scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - name: Check out the published data
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: pages
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Restore state
-        uses: actions/cache/restore@v4
-        with:
-          path: state
-          key: state-${{ github.run_id }}
-          restore-keys: state-
-      - name: Check Snap
-        id: check
-        shell: bash
+      - name: Scan Snap
         env:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
-          GH_TOKEN: ${{ github.token }}
-          TEST_DATE: ${{ inputs.date }}
+          TEST_MAIL: ${{ inputs.test_mail }}
         run: |
           # The Snap site turns away headless browsers, so Chrome runs with a window on a virtual display.
-          if [ -n "$TEST_DATE" ]; then
-            xvfb-run -a pwsh -NoProfile -File run.ps1 -Date "$TEST_DATE" -Test -OnlyFirstRecipient
+          if [ "$TEST_MAIL" = "true" ]; then
+            node track.mjs --test-mail
           else
-            xvfb-run -a pwsh -NoProfile -File run.ps1
+            xvfb-run -a node track.mjs
           fi
-      - name: Save state
-        if: steps.check.outputs.changed == 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: state
-          key: state-${{ github.run_id }}
+      - name: Publish data and dashboard
+        if: inputs.test_mail != true
+        working-directory: pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || { git commit -q -m "scan $(date -u +%Y-%m-%dT%H:%MZ)"; git push -q; }

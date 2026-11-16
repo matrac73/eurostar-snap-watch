@@ -1,53 +1,51 @@
 # eurostar-snap-watch
 
-Surveille le site [Eurostar Snap](https://snap.eurostar.com/fr-fr) pour **une date de voyage** et envoie un mail dès que les billets sont en vente sur le créneau voulu (matin ou après-midi), avec le prix et un lien de réservation pré-rempli.
+Suivi continu des billets [Eurostar Snap](https://snap.eurostar.com/fr-fr) sur un trajet : ce qui est en vente maintenant, quand chaque créneau est sorti, quand il est parti et en combien de temps. Un mail à chaque nouvelle sortie, et une alerte dédiée pour la date qui vous intéresse.
 
-## Ce que ça fait, et ce que ça ne fait pas
+**Tableau de bord : https://matrac73.github.io/eurostar-snap-watch/**
 
-- Toutes les 10 minutes, une tâche planifiée Windows ouvre la page de recherche Snap dans Chrome (fenêtre réduite) et lit le résultat : créneaux proposés et prix, ou « aucun billet Snap disponible à cette date ».
-- Dès que le créneau voulu apparaît : mail aux destinataires, ouverture de la page pré-remplie dans le navigateur par défaut, puis la tâche se désactive toute seule.
-- Si seul l'autre créneau est en vente : un mail d'information, et la veille continue.
-- Si la vérification échoue 6 fois de suite : un mail d'alerte (un seul), puis un mail quand ça repart.
-- **Rien n'est acheté ni réservé.** Snap n'a pas de panier qui se garde : la place n'est tenue qu'une fois payée. Le « panier » est donc le lien pré-rempli (date, nombre d'adultes, créneau) : il reste à cliquer sur « Continuer », saisir les voyageurs et payer.
+Tout tourne gratuitement dans GitHub Actions, sans ordinateur allumé.
 
-Le site refuse les navigateurs sans fenêtre et les appels directs à son API (protection anti-robots). Le script n'essaie pas de la contourner : il charge la page publique dans le Chrome installé, comme un visiteur, à faible fréquence. Garde un intervalle raisonnable (10 minutes) et un usage personnel.
+## Ce que ça fait
 
-## Ce qu'il faut savoir sur Snap
+Toutes les 15 minutes environ, un scan :
 
-- Le site annonce une réservation « jusqu'à 10 jours à l'avance », mais les dates s'ouvrent au cas par cas selon le remplissage des trains. Certaines dates ne sont jamais proposées (trains pleins).
-- Créneau matin = départ entre le premier train et 14 h environ ; l'heure exacte arrive au plus tard 48 h avant.
-- Billets ni échangeables, ni remboursables, ni cessibles. Adultes uniquement, 4 personnes maximum.
+1. ouvre le calendrier Snap pour lire les dates en vente sur le trajet ;
+2. ouvre la page de chaque date pour lire les créneaux (matin, après-midi) et les prix ;
+3. compare avec le scan précédent et met à jour l'historique : créneau **sorti**, **prix modifié**, créneau **parti** ;
+4. envoie les mails et publie les données du tableau de bord.
 
-## Installation
+| Mail | Quand | À qui |
+|---|---|---|
+| Nouvelle sortie | un créneau ou une date apparaît (un mail par scan, avec ce qui est parti depuis le dernier mail et tout ce qui est en vente) | le premier destinataire |
+| Votre date est en vente | le créneau de la date cible apparaît, avec un lien de réservation pré-rempli | tous les destinataires |
+| Suivi en panne / reparti | 6 scans ratés de suite, puis au retour à la normale | le premier destinataire |
 
-Prérequis : Windows, PowerShell 7 (`pwsh`), Node.js 20+, Google Chrome, un compte SMTP (par exemple Gmail avec un mot de passe d'application).
+Rien n'est acheté ni réservé : Snap ne tient une place qu'une fois payée. Le lien du mail ouvre la page avec la date, le nombre d'adultes et le créneau déjà choisis.
 
-```powershell
-git clone https://github.com/matrac73/eurostar-snap-watch
-cd eurostar-snap-watch
-npm install
-Copy-Item config.example.json config.json   # puis éditer config.json
+## Lire les chiffres
+
+- **Heure de sortie / de disparition** : c'est l'heure du scan qui a vu le changement. Le changement réel a eu lieu dans la « fenêtre » entre ce scan et le précédent (15 minutes, parfois plus : le planificateur de GitHub peut retarder ou sauter une exécution).
+- **Vitesse de vente** : le site ne publie pas le nombre de places. La vitesse est mesurée par la durée pendant laquelle un créneau reste en vente et par ses changements de prix.
+- **« Avant le suivi »** : créneaux déjà en vente au tout premier scan, dont l'heure de sortie est inconnue. Leur durée est affichée avec « ≥ ».
+- **Motif de disparition** : `vendu` ; `fermé la veille` quand le créneau disparaît la veille du voyage (Snap arrête la vente à ce moment-là, vendu ou non). Les dates passées ne sont pas listées.
+- Les disponibilités sont celles pour le nombre d'adultes configuré (2 par défaut).
+
+## Changer de date cible ou de trajet
+
+Tout est dans [`settings.json`](settings.json), modifiable directement sur GitHub (crayon, puis « Commit ») :
+
+```json
+{
+  "route": { "label": "Paris → Londres", "origin": "8727100", "destination": "7015400" },
+  "adults": 2,
+  "target": { "date": "2026-12-06", "slot": "morning" }
+}
 ```
 
-Mot de passe SMTP, chiffré pour le compte Windows courant (jamais dans le dépôt) :
-
-```powershell
-Get-Credential | Export-Clixml C:\chemin\vers\smtp-cred.xml
-```
-
-Indiquer ce chemin dans `mail.credentialFile`. `config.json`, `state/` et `logs/` sont ignorés par git : les adresses mail et les secrets restent sur la machine.
-
-## Changer de date ou de trajet
-
-Tout est dans `config.json`, bloc `trip` :
-
-| Champ | Valeur |
-|---|---|
-| `date` | date du voyage, `AAAA-MM-JJ` |
-| `slot` | `morning` ou `afternoon` |
-| `adults` | 1 à 4 |
-| `origin` / `destination` | codes de gare (ci-dessous) |
-| `label` | texte libre repris dans le mail |
+- `target.date` : la date qui déclenche l'alerte envoyée à tout le monde (`AAAA-MM-JJ`) ; `target.slot` : `morning` ou `afternoon`. Supprimer `target` pour ne garder que le suivi.
+- `adults` : 1 à 4.
+- `route` : codes de gare ci-dessous. Changer de trajet mélange deux historiques : repartir d'une branche `gh-pages` vide dans ce cas.
 
 | Gare | Code |
 |---|---|
@@ -58,36 +56,41 @@ Tout est dans `config.json`, bloc `trip` :
 | Rotterdam Centraal | `8400530` |
 | Cologne Hbf | `8015458` |
 
-Pour une autre gare, faire une recherche à la main sur le site Snap et lire `origin=` / `destination=` dans l'adresse de la page.
+Le changement est pris en compte au scan suivant.
 
-Puis relancer la veille :
+## Réglages hors dépôt
 
-```powershell
-pwsh -File install-task.ps1          # (ré)active la tâche, toutes les 10 min
+Les adresses et le mot de passe du compte d'envoi ne sont jamais dans le dépôt : ce sont des secrets chiffrés (Settings → Secrets and variables → Actions).
+
+| Secret | Contenu |
+|---|---|
+| `SMTP_USER` | adresse du compte d'envoi (Gmail) |
+| `SMTP_PASS` | mot de passe d'application de ce compte |
+| `MAIL_TO` | destinataires séparés par des virgules ; le premier reçoit tous les mails |
+
+Mettre en pause ou relancer : onglet Actions → « Snap watch » → Disable / Enable workflow. Lancer un scan tout de suite, ou seulement des mails d'exemple : « Run workflow ».
+
+## Installer sa propre copie
+
+1. Dupliquer le dépôt (public : les minutes Actions y sont gratuites).
+2. Créer les trois secrets ci-dessus.
+3. Créer une branche `gh-pages` vide et activer GitHub Pages dessus (Settings → Pages).
+4. Adapter `settings.json` (dont `dashboardUrl`).
+
+En local (Windows, macOS ou Linux, avec Node 20+ et Chrome) :
+
+```bash
+npm install
+SMTP_USER=... SMTP_PASS=... MAIL_TO=... node track.mjs --visible
 ```
 
-L'état est gardé par trajet et par date dans `state/` : une nouvelle date repart de zéro. Pour un aller-retour, cloner le dossier une deuxième fois avec un autre `taskName`.
+## Comment le site est lu
 
-## Commandes utiles
-
-```powershell
-pwsh -File run.ps1                            # une vérification tout de suite
-pwsh -File run.ps1 -Date 2026-11-25 -Test     # essai complet sur une date ouverte : mail marqué [TEST], aucun état enregistré
-node watch.mjs --origin 8727100 --destination 7015400 --date 2026-12-06 --adults 2   # résultat brut en JSON
-pwsh -File install-task.ps1 -EveryMinutes 5   # changer l'intervalle
-pwsh -File install-task.ps1 -Remove           # supprimer la tâche
-Get-Content logs\*.log -Tail 20               # journal des vérifications
-```
-
-## Limites
-
-- Le PC doit être allumé, session ouverte et non en veille : la vérification a besoin d'une vraie fenêtre Chrome. Une vérification manquée est rattrapée au réveil.
-- Une fenêtre Chrome réduite apparaît brièvement dans la barre des tâches à chaque vérification.
-- Si Eurostar change sa page, la veille passe en erreur et envoie le mail d'alerte ; les sélecteurs à adapter sont dans `watch.mjs`.
+Le site refuse les appels directs à son API et les navigateurs sans fenêtre (protection anti-robots). Le script ne la contourne pas : il parcourt les pages publiques dans un Chrome normal, comme un visiteur, à faible fréquence (une dizaine de pages par scan). Usage personnel ; garder un intervalle raisonnable. Si Eurostar modifie ses pages, le scan passe en erreur et le mail d'alerte part : les sélecteurs sont dans `lib/scan.mjs`.
 
 ## Fichiers
 
-- `watch.mjs` : ouvre la page Snap et renvoie les créneaux en JSON.
-- `run.ps1` : une vérification, l'état, les mails.
-- `install-task.ps1` : la tâche planifiée.
-- `config.example.json` : modèle de configuration.
+- `track.mjs` : un scan complet (lecture, historique, mails, publication).
+- `lib/scan.mjs` : lecture du site ; `lib/history.mjs` : historique des créneaux ; `lib/mail.mjs` : mails.
+- `site/index.html` : tableau de bord, publié avec `data.json` sur la branche `gh-pages`.
+- `.github/workflows/watch.yml` : planification.
