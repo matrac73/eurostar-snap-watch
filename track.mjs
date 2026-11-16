@@ -17,7 +17,8 @@ const settings = JSON.parse(fs.readFileSync(path.join(root, 'settings.json'), 'u
 const dir = path.resolve(root, process.env.DATA_DIR || 'pages');
 const dataFile = path.join(dir, 'data.json');
 const dashboardUrl = process.env.DASHBOARD_URL || settings.dashboardUrl || '';
-// First address = owner, gets every mail. The others only get the alert for the target date.
+// Everybody gets the new-release mails and the target-date mails. The first address (owner)
+// also gets the housekeeping ones: first scan, watcher broken, watcher back.
 const recipients = (process.env.MAIL_TO || '').split(/[,; ]+/).filter(Boolean);
 const owner = recipients[0];
 const log = (m) => console.log(`${new Date().toISOString().slice(11, 19)} ${m}`);
@@ -84,7 +85,7 @@ if (snap) {
 
   if (wasBroken && (await trySend('recovery', errorMail(data, dashboardUrl, true), owner))) data.status.errorAlertSent = false;
   if (data.outbox.baseline && (await trySend('baseline', baselineMail(data, dashboardUrl), owner))) data.outbox.baseline = false;
-  if (data.outbox.released.length && (await trySend('released', releasedMail(data, byId(data.outbox.released), byId(data.outbox.closed), dashboardUrl), owner))) {
+  if (data.outbox.released.length && (await trySend('released', releasedMail(data, byId(data.outbox.released), byId(data.outbox.closed), dashboardUrl), recipients))) {
     data.outbox.released = [];
     data.outbox.closed = [];
   }

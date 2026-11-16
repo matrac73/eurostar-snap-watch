@@ -17,7 +17,7 @@ Toutes les 15 minutes environ, un scan :
 
 | Mail | Quand | À qui |
 |---|---|---|
-| Nouvelle sortie | un créneau ou une date apparaît (un mail par scan, avec ce qui est parti depuis le dernier mail et tout ce qui est en vente) | le premier destinataire |
+| Nouvelle sortie | un créneau ou une date apparaît (un mail par scan, avec ce qui est parti depuis le dernier mail et tout ce qui est en vente) | tous les destinataires |
 | Votre départ (objet commençant par « Votre départ ») | le créneau de la date cible apparaît, avec un lien de réservation pré-rempli ; puis à chaque changement tant que la date n'est pas passée : prix modifié, créneau parti, créneau revenu, autre créneau du même jour en vente | tous les destinataires |
 | Suivi en panne / reparti | 6 scans ratés de suite, puis au retour à la normale | le premier destinataire |
 
@@ -66,7 +66,7 @@ Les adresses et le mot de passe du compte d'envoi ne sont jamais dans le dépôt
 |---|---|
 | `SMTP_USER` | adresse du compte d'envoi (Gmail) |
 | `SMTP_PASS` | mot de passe d'application de ce compte |
-| `MAIL_TO` | destinataires séparés par des virgules ; le premier reçoit tous les mails |
+| `MAIL_TO` | destinataires séparés par des virgules ; le premier reçoit en plus les mails techniques (premier scan, panne) |
 
 Mettre en pause ou relancer : onglet Actions → « Snap watch » → Disable / Enable workflow. Lancer un scan tout de suite, ou seulement des mails d'exemple : « Run workflow ».
 
