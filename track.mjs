@@ -36,7 +36,11 @@ if (flags.has('--test-mail')) {
   const sample = open.slice(0, 2).map((o) => ({ ...o, baseline: false, releasedAt: o.releasedAt || o.firstSeenAt }));
   const gone = data.offers.filter((o) => o.closedAt).slice(-2);
   await send(releasedMail(data, sample, gone, dashboardUrl), owner, { test: true });
-  if (data.target) await send(targetMail(data, { ...open[0], period: data.target.slot }, dashboardUrl), owner, { test: true });
+  if (data.target) {
+    const offer = { ...open[0], date: data.target.date, period: data.target.slot };
+    await send(targetMail(data, { kind: 'open', offer }, dashboardUrl), owner, { test: true });
+    await send(targetMail(data, { kind: 'price', offer, before: offer.prices[0].price - 10 }, dashboardUrl), owner, { test: true });
+  }
   log(`test mails sent to the first recipient`);
   process.exit(0);
 }
@@ -85,12 +89,31 @@ if (snap) {
     data.outbox.closed = [];
   }
 
-  // The target date: everybody is told, once per target.
+  // The target date: everybody is told when it opens, and then at every change for as long as
+  // the trip is ahead (price change, slot gone, slot back, other slot of that day opening).
   const t = data.target;
   if (t) {
     const key = `${t.date}|${t.slot}`;
-    const hit = openOffers(data).find((o) => o.date === t.date && o.period === t.slot);
-    if (hit && data.targetNotified !== key && (await trySend('target', targetMail(data, hit, dashboardUrl), recipients))) data.targetNotified = key;
+    if (!data.targetState || data.targetState.key !== key) data.targetState = { key, open: false, price: null, everOpen: false, other: false };
+    const ts = data.targetState;
+    const readable = snap.dates[t.date]?.state !== 'unknown';
+    const sameDay = openOffers(data).filter((o) => o.date === t.date);
+    const hit = sameDay.find((o) => o.period === t.slot);
+    const other = sameDay.find((o) => o.period !== t.slot);
+    const price = hit ? hit.prices[hit.prices.length - 1].price : null;
+    const tell = (kind, extra) => trySend(`target ${kind}`, targetMail(data, { kind, offer: hit, other, ...extra }, dashboardUrl), recipients);
+
+    if (hit && !ts.open) {
+      if (await tell(ts.everOpen ? 'reopen' : 'open')) Object.assign(ts, { open: true, everOpen: true, price });
+    } else if (hit && ts.open && price !== ts.price) {
+      if (await tell('price', { before: ts.price })) ts.price = price;
+    } else if (!hit && ts.open && readable) {
+      if (await tell('gone', { before: ts.price })) Object.assign(ts, { open: false, price: null });
+    }
+    // The other slot of the same day, when the wanted one is not on sale.
+    if (!hit && other && !ts.other && readable) {
+      if (await tell('other')) ts.other = true;
+    } else if (!other && readable) ts.other = false;
   }
 } else if (data.status.errors >= 6 && !data.status.errorAlertSent) {
   // Six failed scans in a row: say so once, so a broken watcher is never silent.
