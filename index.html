@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snap Watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#ffffff; --ink:#000000; --mute:#6b6b6b; --hair:#d6d6d6; --orange:#FC4C02; --px:6px; }
+  @media (prefers-color-scheme: dark) { :root { --paper:#000000; --ink:#ffffff; --mute:#9a9a9a; --hair:#2e2e2e; } }
+  * { box-sizing:border-box; }
+  html { background:var(--paper); }
+  body { margin:0; color:var(--ink); font:14px/1.55 "IBM Plex Mono", "Courier New", monospace;
+    background:radial-gradient(var(--hair) 1px, transparent 1px) 0 0 / 18px 18px; }
+  .wrap { max-width:980px; margin:0 auto; padding:28px 16px 64px; }
+  a { color:inherit; text-decoration:underline; text-decoration-color:var(--orange); text-underline-offset:3px; }
+  a:hover { color:var(--orange); }
+  .px { font-family:"Silkscreen", "IBM Plex Mono", monospace; letter-spacing:.04em; text-transform:uppercase; }
+  .mute { color:var(--mute); }
+  .or { color:var(--orange); }
+
+  header { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; padding-bottom:0; }
+  header .brand { text-align:right; font-size:11px; letter-spacing:.18em; }
+  canvas.art { image-rendering:pixelated; display:block; }
+  .rule { height:1px; background:var(--orange); border:0; margin:0; }
+  h1 { font:700 clamp(22px, 5vw, 38px)/1.1 "Silkscreen", monospace; text-transform:uppercase; margin:26px 0 6px; text-wrap:balance; }
+  .sub { margin:0 0 22px; max-width:70ch; }
+
+  .tiles { display:grid; grid-template-columns:repeat(4, 1fr); border:1px solid var(--ink); background:var(--paper); }
+  .tile { padding:14px 14px 12px; border-right:1px solid var(--ink); min-width:0; }
+  .tile:last-child { border-right:0; }
+  .tile .k { font-size:10px; letter-spacing:.16em; color:var(--mute); text-transform:uppercase; }
+  .tile .v { font:700 24px/1.2 "Silkscreen", monospace; margin-top:6px; overflow-wrap:anywhere; }
+  .tile .d { font-size:11px; color:var(--mute); margin-top:2px; }
+  .tile.hot .v { color:var(--orange); }
+  @media (max-width:720px) { .tiles { grid-template-columns:repeat(2, 1fr); } .tile:nth-child(2) { border-right:0; } .tile:nth-child(-n+2) { border-bottom:1px solid var(--ink); } }
+
+  section { margin-top:40px; }
+  .label { display:flex; align-items:baseline; gap:12px; font-size:11px; letter-spacing:.2em; font-weight:600; text-transform:uppercase; padding-bottom:8px; border-bottom:1px solid var(--orange); }
+  .label .n { color:var(--orange); }
+  .label .note { margin-left:auto; font-weight:400; letter-spacing:.08em; color:var(--mute); text-transform:none; text-align:right; }
+  .box { background:var(--paper); }
+  .scroll { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+  th { text-align:left; font-size:10px; letter-spacing:.14em; color:var(--mute); font-weight:500; text-transform:uppercase; padding:10px 14px 8px 0; border-bottom:1px solid var(--ink); white-space:nowrap; }
+  td { padding:9px 14px 9px 0; border-bottom:1px dotted var(--mute); white-space:nowrap; }
+  td.price { font-weight:600; }
+  tr.target td { background:linear-gradient(var(--orange), var(--orange)) left / 3px 100% no-repeat; }
+  tr.target td:first-child { padding-left:12px; }
+  tr.target td:not(:first-child) { background:none; }
+  .tag { display:inline-block; font-size:10px; letter-spacing:.12em; text-transform:uppercase; border:1px solid currentColor; padding:1px 6px; }
+  .tag.on { color:var(--orange); }
+  .empty { padding:22px 0; color:var(--mute); }
+
+  .bars { display:grid; grid-template-columns:repeat(24, 1fr); gap:3px; align-items:end; height:96px; padding-top:12px; }
+  .bars .col { display:flex; flex-direction:column-reverse; gap:2px; height:100%; }
+  .bars .b { height:var(--px); background:var(--ink); }
+  .bars .col.peak .b { background:var(--orange); }
+  .axis { display:grid; grid-template-columns:repeat(24, 1fr); gap:3px; font-size:9px; color:var(--mute); text-align:center; border-top:1px solid var(--ink); padding-top:4px; }
+  .spark { display:inline-flex; align-items:flex-end; gap:2px; height:16px; vertical-align:middle; margin-left:8px; }
+  .spark i { width:4px; background:var(--ink); display:block; }
+  .spark i:last-child { background:var(--orange); }
+  footer { margin-top:48px; padding-top:10px; border-top:1px solid var(--orange); font-size:11px; color:var(--mute); letter-spacing:.04em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <canvas class="art" id="train" aria-hidden="true"></canvas>
+    <div class="brand"><span class="mute">SNAP/WATCH</span><br><span id="route">…</span></div>
+  </header>
+  <hr class="rule">
+  <h1 id="headline">Chargement…</h1>
+  <p class="sub mute" id="sub"></p>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section>
+    <div class="label"><span class="n">001</span><span>En vente maintenant</span><span class="note" id="live-note"></span></div>
+    <div class="box scroll" id="live"></div>
+  </section>
+
+  <section>
+    <div class="label"><span class="n">002</span><span>Sorties de billets</span><span class="note">date et heure où chaque créneau est apparu</span></div>
+    <div class="box scroll" id="releases"></div>
+  </section>
+
+  <section>
+    <div class="label"><span class="n">003</span><span>Partis</span><span class="note">quand, et après combien de temps en vente</span></div>
+    <div class="box scroll" id="gone"></div>
+  </section>
+
+  <section>
+    <div class="label"><span class="n">004</span><span>Heure de sortie</span><span class="note">nombre de créneaux sortis par heure (Paris)</span></div>
+    <div class="box" id="hours"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const TRAIN = [
+  '..........######################',
+  '.......#########################',
+  '.....####..##..##..##..##..##.##',
+  '...######..##..##..##..##..##.##',
+  '..##############################',
+  '.###############################',
+  'oooooooooooooooooooooooooooooooo',
+  '################################',
+  '...###.......###.......###......',
+  '....#.........#.........#.......',
+];
+function drawTrain() {
+  const c = document.getElementById('train'), s = 6, css = getComputedStyle(document.documentElement);
+  c.width = TRAIN[0].length * s; c.height = TRAIN.length * s;
+  const g = c.getContext('2d');
+  TRAIN.forEach((row, y) => [...row].forEach((ch, x) => {
+    if (ch === '.') return;
+    g.fillStyle = ch === 'o' ? css.getPropertyValue('--orange') : css.getPropertyValue('--ink');
+    g.fillRect(x * s, y * s, s, s);
+  }));
+}
+drawTrain();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawTrain);
+
+const P = { timeZone: 'Europe/Paris' };
+const f = (o) => new Intl.DateTimeFormat('fr-FR', { ...P, ...o });
+const day = (d) => f({ weekday: 'short', day: '2-digit', month: 'short', timeZone: 'UTC' }).format(new Date(d + 'T12:00:00Z')).replace(/\./g, '');
+const longDay = (d) => f({ weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(d + 'T12:00:00Z'));
+const stamp = (iso) => f({ weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(iso)).replace(/\./g, '').replace(',', '');
+const hm = (iso) => f({ hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
+const PERIOD = { morning: 'matin', afternoon: 'après-midi' };
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const last = (o) => o.prices[o.prices.length - 1].price;
+const money = (o, p = last(o)) => (p == null ? '—' : p + ' ' + (o.cur || '€'));
+function dur(ms) {
+  const min = Math.round(ms / 60000);
+  if (min < 60) return min + ' min';
+  const h = Math.floor(min / 60);
+  if (h < 24) return h + ' h ' + String(min % 60).padStart(2, '0');
+  return Math.floor(h / 24) + ' j ' + (h % 24) + ' h';
+}
+const ago = (iso) => dur(Date.now() - new Date(iso)) ;
+const median = (a) => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+const table = (head, rows) => '<table><thead><tr>' + head.map((h) => '<th>' + h + '</th>').join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table>';
+const empty = (t) => '<div class="empty">' + t + '</div>';
+const url = (d, o) => 'https://snap.eurostar.com/fr-fr/search?adult=' + d.adults + '&origin=' + d.route.origin + '&destination=' + d.route.destination + '&outbound=' + o.date + '&outslot=' + encodeURIComponent(o.time);
+const spark = (o) => {
+  if (o.prices.length < 2) return '';
+  const v = o.prices.map((p) => p.price), lo = Math.min(...v), hi = Math.max(...v);
+  return '<span class="spark" title="' + v.join(' → ') + '">' + v.map((p) => '<i style="height:' + (4 + (hi === lo ? 0 : ((p - lo) / (hi - lo)) * 12)) + 'px"></i>').join('') + '</span>';
+};
+// Days between the release and the travel date.
+const lead = (o) => (new Date(o.date + 'T06:00:00+01:00') - new Date(o.releasedAt)) / 86400000;
+
+function render(d) {
+  const open = d.offers.filter((o) => !o.closedAt).sort((a, b) => (a.date + a.period).localeCompare(b.date + b.period));
+  const tracked = d.offers.filter((o) => o.releasedAt);
+  const gone = d.offers.filter((o) => o.closedAt && o.closedReason !== 'expired').sort((a, b) => b.closedAt.localeCompare(a.closedAt));
+  const sold = gone.filter((o) => o.closedReason === 'sold_out');
+  const t = d.target, isT = (o) => t && o.date === t.date && o.period === t.slot;
+  const hit = open.find(isT);
+
+  document.getElementById('route').textContent = d.route.label.toUpperCase();
+  document.title = 'Snap Watch · ' + d.route.label;
+  const dates = new Set(open.map((o) => o.date)).size;
+  document.getElementById('headline').textContent = open.length ? open.length + ' créneau' + (open.length > 1 ? 'x' : '') + ' Snap en vente sur ' + dates + ' date' + (dates > 1 ? 's' : '') : 'Aucun billet Snap en vente';
+  const s = d.status;
+  document.getElementById('sub').innerHTML = esc(d.route.label) + ', ' + d.adults + ' adulte(s). Dernier scan ' + (s.lastOkAt ? 'réussi il y a ' + ago(s.lastOkAt) + ' (' + stamp(s.lastOkAt) + ')' : 'jamais réussi') + (s.errors ? ' · <span class="or">' + s.errors + ' échec(s) depuis</span>' : '') + '.';
+
+  const leads = tracked.map(lead), soldDur = sold.filter((o) => o.releasedAt).map((o) => new Date(o.closedAt) - new Date(o.releasedAt));
+  const mLead = median(leads), mSold = median(soldDur), cheapest = open.length ? open.reduce((a, b) => (last(a) <= last(b) ? a : b)) : null;
+  const tiles = [
+    t ? { hot: !!hit, k: 'Votre départ', v: hit ? money(hit) : 'Pas encore', d: longDay(t.date) + ' ' + PERIOD[t.slot] } : null,
+    { k: 'Moins cher en vente', v: cheapest ? money(cheapest) : '—', d: cheapest ? day(cheapest.date) + ' ' + PERIOD[cheapest.period] : 'rien en vente' },
+    { k: 'Sortie avant départ', v: mLead == null ? '—' : mLead.toFixed(1).replace('.', ',') + ' j', d: mLead == null ? 'pas encore de sortie observée' : 'médiane sur ' + leads.length + ' sortie(s)' },
+    { k: 'Temps pour se vendre', v: mSold == null ? '—' : dur(mSold), d: mSold == null ? 'pas encore de vente observée' : 'médiane sur ' + soldDur.length + ' créneau(x)' },
+  ].filter(Boolean);
+  document.getElementById('tiles').innerHTML = tiles.map((x) => '<div class="tile' + (x.hot ? ' hot' : '') + '"><div class="k">' + x.k + '</div><div class="v">' + esc(x.v) + '</div><div class="d">' + esc(x.d) + '</div></div>').join('');
+
+  document.getElementById('live-note').textContent = 'prix par personne';
+  document.getElementById('live').innerHTML = open.length ? table(['Date', 'Créneau', 'Départ entre', 'Prix', 'Sorti le', 'En vente depuis', ''], open.map((o) =>
+    '<tr class="' + (isT(o) ? 'target' : '') + '"><td>' + day(o.date) + '</td><td>' + PERIOD[o.period] + '</td><td>' + o.from + (o.to ? '–' + o.to : '') + '</td><td class="price">' + money(o) + spark(o) + '</td><td>' +
+    (o.baseline ? '<span class="mute">avant le suivi</span>' : stamp(o.releasedAt)) + '</td><td>' + (o.baseline ? '≥ ' : '') + ago(o.releasedAt || o.firstSeenAt) + '</td><td><a href="' + url(d, o) + '" target="_blank" rel="noopener">réserver</a></td></tr>')) : empty('Rien en vente au dernier scan.');
+
+  const rel = [...tracked].sort((a, b) => b.releasedAt.localeCompare(a.releasedAt));
+  document.getElementById('releases').innerHTML = rel.length ? table(['Sorti le', 'Fenêtre', 'Pour le', 'Créneau', 'Prix de départ', 'Avance', 'État'], rel.map((o) =>
+    '<tr class="' + (isT(o) ? 'target' : '') + '"><td>' + stamp(o.releasedAt) + '</td><td class="mute">' + (o.notBefore ? hm(o.notBefore) + '–' + hm(o.releasedAt) : '—') + '</td><td>' + day(o.date) + '</td><td>' + PERIOD[o.period] + '</td><td class="price">' + money(o, o.prices[0].price) + '</td><td>' + lead(o).toFixed(1).replace('.', ',') + ' j</td><td>' +
+    (o.closedAt ? '<span class="tag">parti</span>' : '<span class="tag on">en vente</span>') + '</td></tr>')) : empty('Aucune sortie observée depuis le début du suivi. Les créneaux déjà en vente au premier scan sont listés plus haut, sans heure de sortie.');
+
+  const why = { sold_out: 'vendu', closed_eve: 'fermé la veille' };
+  document.getElementById('gone').innerHTML = gone.length ? table(['Disparu le', 'Fenêtre', 'Date du voyage', 'Créneau', 'Dernier prix', 'Resté en vente', 'Motif'], gone.map((o) =>
+    '<tr><td>' + stamp(o.closedAt) + '</td><td class="mute">' + hm(o.lastSeenAt) + '–' + hm(o.closedAt) + '</td><td>' + day(o.date) + '</td><td>' + PERIOD[o.period] + '</td><td class="price">' + money(o) + spark(o) + '</td><td>' + (o.baseline ? '≥ ' : '') + dur(new Date(o.closedAt) - new Date(o.releasedAt || o.firstSeenAt)) + '</td><td><span class="tag">' + (why[o.closedReason] || '') + '</span></td></tr>')) : empty('Aucun créneau parti depuis le début du suivi.');
+
+  const hours = Array(24).fill(0);
+  tracked.forEach((o) => hours[+f({ hour: '2-digit', hourCycle: 'h23' }).format(new Date(o.releasedAt)).slice(0, 2)]++);
+  const max = Math.max(...hours);
+  document.getElementById('hours').innerHTML = max ? '<div class="bars">' + hours.map((n) => '<div class="col' + (n === max ? ' peak' : '') + '" title="' + n + '">' + '<div class="b"></div>'.repeat(Math.round((n / max) * 10)) + '</div>').join('') + '</div><div class="axis">' + hours.map((_, h) => '<span>' + (h % 3 ? '' : String(h).padStart(2, '0')) + '</span>').join('') + '</div>' : empty('Le graphique se remplira avec les premières sorties observées.');
+
+  document.getElementById('foot').innerHTML = 'Scan n° ' + String(s.scans).padStart(4, '0') + ' · toutes les 15 min environ · une sortie ou une disparition est située entre deux scans (colonne « fenêtre ») · le site ne publie pas le nombre de places : la vitesse est mesurée par la durée de mise en vente et les changements de prix · <a href="https://github.com/matrac73/eurostar-snap-watch">code</a>';
+}
+
+async function load() {
+  try {
+    const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    render(await r.json());
+  } catch (e) {
+    document.getElementById('headline').textContent = 'Données indisponibles';
+    document.getElementById('sub').textContent = 'Le premier scan n\'a pas encore été publié (' + e.message + ').';
+  }
+}
+load();
+setInterval(load, 5 * 60 * 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+{
+ "route": {
+  "label": "Paris → Londres",
+  "origin": "8727100",
+  "destination": "7015400"
+ },
+ "adults": 2,
+ "target": {
+  "date": "2026-12-06",
+  "slot": "morning"
+ },
+ "status": {
+  "scans": 1,
+  "lastScanAt": "2026-11-16T21:01:49.296Z",
+  "lastOkAt": "2026-11-16T21:01:49.296Z",
+  "errors": 0,
+  "errorAlertSent": false,
+  "lastError": null
+ },
+ "targetNotified": null,
+ "outbox": {
+  "released": [],
+  "closed": [],
+  "baseline": false
+ },
+ "offers": [
+  {
+   "id": "2026-11-17|morning|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-17",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 85
+    }
+   ]
+  },
+  {
+   "id": "2026-11-17|afternoon|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-17",
+   "period": "afternoon",
+   "time": "14:00",
+   "from": "14:00",
+   "to": "21:09",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 85
+    }
+   ]
+  },
+  {
+   "id": "2026-11-18|morning|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-18",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 70
+    }
+   ]
+  },
+  {
+   "id": "2026-11-18|afternoon|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-18",
+   "period": "afternoon",
+   "time": "14:00",
+   "from": "14:00",
+   "to": "21:09",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 80
+    }
+   ]
+  },
+  {
+   "id": "2026-11-19|morning|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-19",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 60
+    }
+   ]
+  },
+  {
+   "id": "2026-11-19|afternoon|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-19",
+   "period": "afternoon",
+   "time": "14:00",
+   "from": "14:00",
+   "to": "21:09",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 70
+    }
+   ]
+  },
+  {
+   "id": "2026-11-21|morning|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-21",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 70
+    }
+   ]
+  },
+  {
+   "id": "2026-11-21|afternoon|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-21",
+   "period": "afternoon",
+   "time": "14:00",
+   "from": "14:00",
+   "to": "20:09",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 60
+    }
+   ]
+  },
+  {
+   "id": "2026-11-25|morning|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-25",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 50
+    }
+   ]
+  },
+  {
+   "id": "2026-11-25|afternoon|2026-11-16T21:01:49.296Z",
+   "date": "2026-11-25",
+   "period": "afternoon",
+   "time": "14:00",
+   "from": "14:00",
+   "to": "21:09",
+   "cur": "€",
+   "baseline": true,
+   "releasedAt": null,
+   "notBefore": null,
+   "firstSeenAt": "2026-11-16T21:01:49.296Z",
+   "lastSeenAt": "2026-11-16T21:01:49.296Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-16T21:01:49.296Z",
+     "price": 55
+    }
+   ]
+  }
+ ]
+}
