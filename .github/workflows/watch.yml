@@ -1,0 +1,60 @@
+name: Snap watch
+
+on:
+  schedule:
+    # Written by set-trip.ps1 from trip.json (startDate to the day before the trip). Times are UTC.
+    - cron: '*/15 * 20-30 11 *'
+    - cron: '*/15 * 1-5 12 *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Test on another date (YYYY-MM-DD): sends a [TEST] mail to the first recipient only'
+        required: false
+
+permissions:
+  contents: read
+  actions: write   # lets the watcher switch this workflow off once it has notified
+
+concurrency:
+  group: snap-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Restore state
+        uses: actions/cache/restore@v4
+        with:
+          path: state
+          key: state-${{ github.run_id }}
+          restore-keys: state-
+      - name: Check Snap
+        id: check
+        shell: bash
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          GH_TOKEN: ${{ github.token }}
+          TEST_DATE: ${{ inputs.date }}
+        run: |
+          # The Snap site turns away headless browsers, so Chrome runs with a window on a virtual display.
+          if [ -n "$TEST_DATE" ]; then
+            xvfb-run -a pwsh -NoProfile -File run.ps1 -Date "$TEST_DATE" -Test -OnlyFirstRecipient
+          else
+            xvfb-run -a pwsh -NoProfile -File run.ps1
+          fi
+      - name: Save state
+        if: steps.check.outputs.changed == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: state
+          key: state-${{ github.run_id }}

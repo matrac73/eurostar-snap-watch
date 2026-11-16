@@ -1,0 +1,9 @@
+{
+  "label": "Paris → Londres",
+  "origin": "8727100",
+  "destination": "7015400",
+  "date": "2026-12-06",
+  "slot": "morning",
+  "adults": 2,
+  "startDate": "2026-11-20"
+}

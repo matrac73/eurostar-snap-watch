@@ -10,6 +10,7 @@ $ErrorActionPreference = 'Stop'
 $Root = $PSScriptRoot
 $cfg = Get-Content "$Root\config.json" -Raw | ConvertFrom-Json
 $name = $cfg.taskName
+$trip = Get-Content "$Root\trip.json" -Raw | ConvertFrom-Json
 
 if ($Remove) {
     Unregister-ScheduledTask -TaskName $name -Confirm:$false
@@ -27,4 +28,4 @@ $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatt
     -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 5)
 # Runs in the logged-in session: the check needs a real Chrome window (minimized).
 Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Settings $settings -Force | Out-Null
-"Task $name registered: every $EveryMinutes min, trip $($cfg.trip.label) on $($cfg.trip.date) ($($cfg.trip.slot))."
+"Task $name registered: every $EveryMinutes min, trip $($trip.label) on $($trip.date) ($($trip.slot)), from $($trip.startDate)."

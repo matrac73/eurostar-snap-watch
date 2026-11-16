@@ -1,17 +1,12 @@
 {
   "taskName": "EurostarSnapWatch",
-  "trip": {
-    "label": "Paris → Londres",
-    "origin": "8727100",
-    "destination": "7015400",
-    "date": "2026-12-06",
-    "slot": "morning",
-    "adults": 2
-  },
   "openBrowserOnHit": true,
   "mail": {
     "from": "sender@example.com",
-    "to": ["first.person@example.com", "second.person@example.com"],
+    "to": [
+      "first.person@example.com",
+      "second.person@example.com"
+    ],
     "smtpHost": "smtp.gmail.com",
     "smtpPort": 587,
     "credentialFile": "C:\\path\\to\\smtp-cred.xml"
