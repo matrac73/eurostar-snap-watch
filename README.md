@@ -18,6 +18,7 @@ Toutes les 15 minutes environ, un scan :
 | Mail | Quand | À qui |
 |---|---|---|
 | Nouvelle sortie | un créneau ou une date apparaît (un mail par scan, avec ce qui est parti depuis le dernier mail et tout ce qui est en vente) | tous les destinataires |
+| Billets partis | un créneau disparaît sans nouvelle sortie au même scan (même mail, titré « Certains billets ne sont plus disponibles. ») ; un créneau dont la date est passée ne compte pas | tous les destinataires |
 | Votre départ (objet commençant par « Votre départ ») | le créneau de la date cible apparaît, avec un lien de réservation pré-rempli ; puis à chaque changement tant que la date n'est pas passée : prix modifié, créneau parti, créneau revenu, autre créneau du même jour en vente | tous les destinataires |
 | Suivi en panne / reparti | 6 scans ratés de suite, puis au retour à la normale | le premier destinataire |
 

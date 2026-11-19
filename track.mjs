@@ -17,7 +17,7 @@ const settings = JSON.parse(fs.readFileSync(path.join(root, 'settings.json'), 'u
 const dir = path.resolve(root, process.env.DATA_DIR || 'pages');
 const dataFile = path.join(dir, 'data.json');
 const dashboardUrl = process.env.DASHBOARD_URL || settings.dashboardUrl || '';
-// Everybody gets the new-release mails and the target-date mails. The first address (owner)
+// Everybody gets the movement mails (slots released or gone) and the target-date mails. The first address (owner)
 // also gets the housekeeping ones: first scan, watcher broken, watcher back.
 const recipients = (process.env.MAIL_TO || '').split(/[,; ]+/).filter(Boolean);
 const owner = recipients[0];
@@ -37,6 +37,7 @@ if (flags.has('--test-mail')) {
   const sample = open.slice(0, 2).map((o) => ({ ...o, baseline: false, releasedAt: o.releasedAt || o.firstSeenAt }));
   const gone = data.offers.filter((o) => o.closedAt).slice(-2);
   await send(releasedMail(data, sample, gone, dashboardUrl), owner, { test: true });
+  if (gone.length) await send(releasedMail(data, [], gone, dashboardUrl), owner, { test: true });
   if (data.target) {
     const offer = { ...open[0], date: data.target.date, period: data.target.slot };
     await send(targetMail(data, { kind: 'open', offer }, dashboardUrl), owner, { test: true });
@@ -85,7 +86,8 @@ if (snap) {
 
   if (wasBroken && (await trySend('recovery', errorMail(data, dashboardUrl, true), owner))) data.status.errorAlertSent = false;
   if (data.outbox.baseline && (await trySend('baseline', baselineMail(data, dashboardUrl), owner))) data.outbox.baseline = false;
-  if (data.outbox.released.length && (await trySend('released', releasedMail(data, byId(data.outbox.released), byId(data.outbox.closed), dashboardUrl), recipients))) {
+  // One mail per scan where slots appeared or vanished (a slot whose date has passed does not count).
+  if ((data.outbox.released.length || data.outbox.closed.length) && (await trySend('movement', releasedMail(data, byId(data.outbox.released), byId(data.outbox.closed), dashboardUrl), recipients))) {
     data.outbox.released = [];
     data.outbox.closed = [];
   }
