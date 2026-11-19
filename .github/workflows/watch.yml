@@ -1,9 +1,11 @@
 name: Snap watch
 
+# GitHub starts scheduled workflows hours late on this repo, so the 15-minute rhythm does not come
+# from the schedule: one run stays up for about five hours, scans every 15 minutes, then starts its
+# own successor. The schedule below only restarts the chain if it ever breaks.
 on:
   schedule:
-    # Every 15 minutes (UTC), off the top of the hour where GitHub's scheduler is busiest.
-    - cron: '7,22,37,52 * * * *'
+    - cron: '7,37 * * * *'
   workflow_dispatch:
     inputs:
       test_mail:
@@ -13,15 +15,42 @@ on:
 
 permissions:
   contents: write   # the scan results are committed to the gh-pages branch
+  actions: write    # a run starts its successor
 
-concurrency:
-  group: snap-watch
-  cancel-in-progress: false
+env:
+  INTERVAL_MINUTES: 15
+  LOOP_MINUTES: 320   # a job may last 6 hours at most
 
 jobs:
-  scan:
+  # A scheduled start does nothing while another run is alive.
+  guard:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          go=true
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            alive=$(gh run list -R "$GITHUB_REPOSITORY" --workflow watch.yml -L 30 --json databaseId,status \
+              --jq "[.[] | select(.status != \"completed\" and .databaseId != $GITHUB_RUN_ID)] | length")
+            echo "other runs alive: $alive"
+            [ "$alive" -gt 0 ] && go=false
+          fi
+          echo "go=$go" >> "$GITHUB_OUTPUT"
+
+  scan:
+    needs: guard
+    if: needs.guard.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    # One scanner at a time: a successor waits here until its predecessor has finished.
+    concurrency:
+      group: snap-watch
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
       - name: Check out the published data
@@ -34,24 +63,43 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Scan Snap
+      - name: Send sample mails
+        if: inputs.test_mail == true
         env:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
-          TEST_MAIL: ${{ inputs.test_mail }}
-        run: |
-          # The Snap site turns away headless browsers, so Chrome runs with a window on a virtual display.
-          if [ "$TEST_MAIL" = "true" ]; then
-            node track.mjs --test-mail
-          else
-            xvfb-run -a node track.mjs
-          fi
-      - name: Publish data and dashboard
+        run: node track.mjs --test-mail
+      - name: Scan Snap every 15 minutes
         if: inputs.test_mail != true
-        working-directory: pages
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet || { git commit -q -m "scan $(date -u +%Y-%m-%dT%H:%MZ)"; git push -q; }
+          git -C pages config user.name "github-actions[bot]"
+          git -C pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          end=$(( $(date +%s) + LOOP_MINUTES * 60 ))
+          while :; do
+            started=$(date +%s)
+            # The Snap site turns away headless browsers, so Chrome runs with a window on a virtual display.
+            xvfb-run -a node track.mjs || echo "::warning::scan crashed"
+            git -C pages add -A
+            git -C pages diff --cached --quiet || { git -C pages commit -q -m "scan $(date -u +%Y-%m-%dT%H:%MZ)" && git -C pages push -q; } || echo "::warning::publish failed"
+            next=$(( started + INTERVAL_MINUTES * 60 ))
+            [ "$next" -ge "$end" ] && break
+            wait=$(( next - $(date +%s) ))
+            [ "$wait" -gt 0 ] && sleep "$wait"
+            # New code or settings on main: stop here, the successor starts from them.
+            if git fetch -q origin main && [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+              echo "main has moved: handing over to a fresh run"
+              break
+            fi
+          done
+      - name: Start the next run
+        # Not after a manual cancel, and not once the workflow is disabled (the call then fails):
+        # those are the two ways to pause the watcher.
+        if: ${{ !cancelled() && inputs.test_mail != true }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run watch.yml -R "$GITHUB_REPOSITORY" --ref main

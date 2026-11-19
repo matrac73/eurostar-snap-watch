@@ -26,7 +26,7 @@ Rien n'est acheté ni réservé : Snap ne tient une place qu'une fois payée. Le
 
 ## Lire les chiffres
 
-- **Heure de sortie / de disparition** : c'est l'heure du scan qui a vu le changement. Le changement réel a eu lieu dans la « fenêtre » entre ce scan et le précédent (15 minutes, parfois plus : le planificateur de GitHub peut retarder ou sauter une exécution).
+- **Heure de sortie / de disparition** : c'est l'heure du scan qui a vu le changement. Le changement réel a eu lieu dans la « fenêtre » entre ce scan et le précédent (15 minutes, un peu plus au passage de relais entre deux exécutions).
 - **Vitesse de vente** : le site ne publie pas le nombre de places. La vitesse est mesurée par la durée pendant laquelle un créneau reste en vente et par ses changements de prix.
 - **« Avant le suivi »** : créneaux déjà en vente au tout premier scan, dont l'heure de sortie est inconnue. Leur durée est affichée avec « ≥ ».
 - **Motif de disparition** : `vendu` ; `fermé la veille` quand le créneau disparaît la veille du voyage (Snap arrête la vente à ce moment-là, vendu ou non). Les dates passées ne sont pas listées.
@@ -69,7 +69,9 @@ Les adresses et le mot de passe du compte d'envoi ne sont jamais dans le dépôt
 | `SMTP_PASS` | mot de passe d'application de ce compte |
 | `MAIL_TO` | destinataires séparés par des virgules ; le premier reçoit en plus les mails techniques (premier scan, panne) |
 
-Mettre en pause ou relancer : onglet Actions → « Snap watch » → Disable / Enable workflow. Lancer un scan tout de suite, ou seulement des mails d'exemple : « Run workflow ».
+Rythme : le planificateur de GitHub lance les workflows planifiés avec des heures de retard, donc une exécution reste active environ 5 h, scanne toutes les 15 minutes, puis lance elle-même la suivante. Le planning (`cron`) ne sert qu'à relancer la chaîne si elle casse. Un changement poussé sur `main` (réglages, code) est pris en compte au scan suivant.
+
+Mettre en pause : onglet Actions → « Snap watch » → Disable workflow, puis annuler l'exécution en cours (Cancel run). Relancer : Enable workflow, puis « Run workflow ». Ce même bouton sert à envoyer seulement des mails d'exemple (case `test_mail`).
 
 ## Installer sa propre copie
 
