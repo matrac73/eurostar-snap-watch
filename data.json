@@ -10,9 +10,9 @@
   "slot": "morning"
  },
  "status": {
-  "scans": 243,
-  "lastScanAt": "2026-11-22T00:10:53.924Z",
-  "lastOkAt": "2026-11-22T00:10:53.924Z",
+  "scans": 244,
+  "lastScanAt": "2026-11-22T00:25:54.122Z",
+  "lastOkAt": "2026-11-22T00:25:54.122Z",
   "errors": 0,
   "errorAlertSent": false,
   "lastError": null
@@ -998,7 +998,7 @@
    "releasedAt": "2026-11-21T07:39:13.602Z",
    "notBefore": "2026-11-21T07:24:12.483Z",
    "firstSeenAt": "2026-11-21T07:39:13.602Z",
-   "lastSeenAt": "2026-11-22T00:10:53.924Z",
+   "lastSeenAt": "2026-11-22T00:25:54.122Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1088,7 +1088,7 @@
    "releasedAt": "2026-11-21T23:10:52.610Z",
    "notBefore": "2026-11-21T22:55:51.470Z",
    "firstSeenAt": "2026-11-21T23:10:52.610Z",
-   "lastSeenAt": "2026-11-22T00:10:53.924Z",
+   "lastSeenAt": "2026-11-22T00:25:54.122Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1110,13 +1110,123 @@
    "releasedAt": "2026-11-21T23:10:52.610Z",
    "notBefore": "2026-11-21T22:55:51.470Z",
    "firstSeenAt": "2026-11-21T23:10:52.610Z",
-   "lastSeenAt": "2026-11-22T00:10:53.924Z",
+   "lastSeenAt": "2026-11-22T00:25:54.122Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
     {
      "at": "2026-11-21T23:10:52.610Z",
      "price": 40
+    }
+   ]
+  },
+  {
+   "id": "2026-11-23|morning|2026-11-22T00:25:54.122Z",
+   "date": "2026-11-23",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": false,
+   "releasedAt": "2026-11-22T00:25:54.122Z",
+   "notBefore": "2026-11-22T00:10:53.924Z",
+   "firstSeenAt": "2026-11-22T00:25:54.122Z",
+   "lastSeenAt": "2026-11-22T00:25:54.122Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-22T00:25:54.122Z",
+     "price": 80
+    }
+   ]
+  },
+  {
+   "id": "2026-11-23|afternoon|2026-11-22T00:25:54.122Z",
+   "date": "2026-11-23",
+   "period": "afternoon",
+   "time": "14:00",
+   "from": "14:00",
+   "to": "21:09",
+   "cur": "€",
+   "baseline": false,
+   "releasedAt": "2026-11-22T00:25:54.122Z",
+   "notBefore": "2026-11-22T00:10:53.924Z",
+   "firstSeenAt": "2026-11-22T00:25:54.122Z",
+   "lastSeenAt": "2026-11-22T00:25:54.122Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-22T00:25:54.122Z",
+     "price": 80
+    }
+   ]
+  },
+  {
+   "id": "2026-11-24|morning|2026-11-22T00:25:54.122Z",
+   "date": "2026-11-24",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": false,
+   "releasedAt": "2026-11-22T00:25:54.122Z",
+   "notBefore": "2026-11-22T00:10:53.924Z",
+   "firstSeenAt": "2026-11-22T00:25:54.122Z",
+   "lastSeenAt": "2026-11-22T00:25:54.122Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-22T00:25:54.122Z",
+     "price": 70
+    }
+   ]
+  },
+  {
+   "id": "2026-11-24|afternoon|2026-11-22T00:25:54.122Z",
+   "date": "2026-11-24",
+   "period": "afternoon",
+   "time": "14:00",
+   "from": "14:00",
+   "to": "21:09",
+   "cur": "€",
+   "baseline": false,
+   "releasedAt": "2026-11-22T00:25:54.122Z",
+   "notBefore": "2026-11-22T00:10:53.924Z",
+   "firstSeenAt": "2026-11-22T00:25:54.122Z",
+   "lastSeenAt": "2026-11-22T00:25:54.122Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-22T00:25:54.122Z",
+     "price": 70
+    }
+   ]
+  },
+  {
+   "id": "2026-11-25|morning|2026-11-22T00:25:54.122Z",
+   "date": "2026-11-25",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": false,
+   "releasedAt": "2026-11-22T00:25:54.122Z",
+   "notBefore": "2026-11-22T00:10:53.924Z",
+   "firstSeenAt": "2026-11-22T00:25:54.122Z",
+   "lastSeenAt": "2026-11-22T00:25:54.122Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-22T00:25:54.122Z",
+     "price": 70
     }
    ]
   }
