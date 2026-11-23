@@ -10,9 +10,9 @@
   "slot": "morning"
  },
  "status": {
-  "scans": 368,
-  "lastScanAt": "2026-11-23T05:59:36.339Z",
-  "lastOkAt": "2026-11-23T05:59:36.339Z",
+  "scans": 369,
+  "lastScanAt": "2026-11-23T06:14:36.665Z",
+  "lastOkAt": "2026-11-23T06:14:36.665Z",
   "errors": 0,
   "errorAlertSent": false,
   "lastError": null
@@ -1360,7 +1360,7 @@
    "releasedAt": "2026-11-22T04:41:28.155Z",
    "notBefore": "2026-11-22T04:26:27.681Z",
    "firstSeenAt": "2026-11-22T04:41:28.155Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1434,7 +1434,7 @@
    "releasedAt": "2026-11-22T04:41:28.155Z",
    "notBefore": "2026-11-22T04:26:27.681Z",
    "firstSeenAt": "2026-11-22T04:41:28.155Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1542,7 +1542,7 @@
    "releasedAt": "2026-11-22T21:58:20.767Z",
    "notBefore": "2026-11-22T21:43:20.857Z",
    "firstSeenAt": "2026-11-22T21:58:20.767Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1568,7 +1568,7 @@
    "releasedAt": "2026-11-22T21:58:20.767Z",
    "notBefore": "2026-11-22T21:43:20.857Z",
    "firstSeenAt": "2026-11-22T21:58:20.767Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1594,7 +1594,7 @@
    "releasedAt": "2026-11-22T21:58:20.767Z",
    "notBefore": "2026-11-22T21:43:20.857Z",
    "firstSeenAt": "2026-11-22T21:58:20.767Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1620,7 +1620,7 @@
    "releasedAt": "2026-11-22T21:58:20.767Z",
    "notBefore": "2026-11-22T21:43:20.857Z",
    "firstSeenAt": "2026-11-22T21:58:20.767Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1668,7 +1668,7 @@
    "releasedAt": "2026-11-23T00:43:56.329Z",
    "notBefore": "2026-11-23T00:28:56.198Z",
    "firstSeenAt": "2026-11-23T00:43:56.329Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1690,7 +1690,7 @@
    "releasedAt": "2026-11-23T00:43:56.329Z",
    "notBefore": "2026-11-23T00:28:56.198Z",
    "firstSeenAt": "2026-11-23T00:43:56.329Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1716,7 +1716,7 @@
    "releasedAt": "2026-11-23T00:43:56.329Z",
    "notBefore": "2026-11-23T00:28:56.198Z",
    "firstSeenAt": "2026-11-23T00:43:56.329Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1738,7 +1738,7 @@
    "releasedAt": "2026-11-23T01:43:55.945Z",
    "notBefore": "2026-11-23T01:28:56.439Z",
    "firstSeenAt": "2026-11-23T01:43:55.945Z",
-   "lastSeenAt": "2026-11-23T05:59:36.339Z",
+   "lastSeenAt": "2026-11-23T06:14:36.665Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
