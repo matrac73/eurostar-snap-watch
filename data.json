@@ -11,11 +11,11 @@
  },
  "status": {
   "scans": 397,
-  "lastScanAt": "2026-11-23T13:00:38.393Z",
+  "lastScanAt": "2026-11-23T13:15:38.821Z",
   "lastOkAt": "2026-11-23T13:00:38.393Z",
-  "errors": 0,
+  "errors": 1,
   "errorAlertSent": false,
-  "lastError": null
+  "lastError": "page.goto: net::ERR_ABORTED at https://snap.eurostar.com/fr-fr/search?adult=2&origin=8727100&destination=7015400&outbound=2026-12-03"
  },
  "targetNotified": null,
  "outbox": {
