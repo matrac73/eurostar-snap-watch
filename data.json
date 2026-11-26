@@ -10,9 +10,9 @@
   "slot": "morning"
  },
  "status": {
-  "scans": 738,
-  "lastScanAt": "2026-11-26T22:40:21.848Z",
-  "lastOkAt": "2026-11-26T22:40:21.848Z",
+  "scans": 739,
+  "lastScanAt": "2026-11-26T22:55:22.300Z",
+  "lastOkAt": "2026-11-26T22:55:22.300Z",
   "errors": 0,
   "errorAlertSent": false,
   "lastError": null
@@ -1828,7 +1828,7 @@
    "releasedAt": "2026-11-23T08:44:41.601Z",
    "notBefore": "2026-11-23T08:29:40.488Z",
    "firstSeenAt": "2026-11-23T08:44:41.601Z",
-   "lastSeenAt": "2026-11-26T22:40:21.848Z",
+   "lastSeenAt": "2026-11-26T22:55:22.300Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -2720,7 +2720,7 @@
    "releasedAt": "2026-11-26T08:08:21.521Z",
    "notBefore": "2026-11-26T07:53:20.656Z",
    "firstSeenAt": "2026-11-26T08:08:21.521Z",
-   "lastSeenAt": "2026-11-26T22:40:21.848Z",
+   "lastSeenAt": "2026-11-26T22:55:22.300Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -2742,7 +2742,7 @@
    "releasedAt": "2026-11-26T08:08:21.521Z",
    "notBefore": "2026-11-26T07:53:20.656Z",
    "firstSeenAt": "2026-11-26T08:08:21.521Z",
-   "lastSeenAt": "2026-11-26T22:40:21.848Z",
+   "lastSeenAt": "2026-11-26T22:55:22.300Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -2902,7 +2902,7 @@
    "releasedAt": "2026-11-26T09:08:24.403Z",
    "notBefore": "2026-11-26T08:53:23.862Z",
    "firstSeenAt": "2026-11-26T09:08:24.403Z",
-   "lastSeenAt": "2026-11-26T22:40:21.848Z",
+   "lastSeenAt": "2026-11-26T22:55:22.300Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -3074,6 +3074,28 @@
    "prices": [
     {
      "at": "2026-11-26T20:39:52.805Z",
+     "price": 85
+    }
+   ]
+  },
+  {
+   "id": "2026-11-28|morning|2026-11-26T22:55:22.300Z",
+   "date": "2026-11-28",
+   "period": "morning",
+   "time": "07:02",
+   "from": "07:02",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": false,
+   "releasedAt": "2026-11-26T22:55:22.300Z",
+   "notBefore": "2026-11-26T22:40:21.848Z",
+   "firstSeenAt": "2026-11-26T22:55:22.300Z",
+   "lastSeenAt": "2026-11-26T22:55:22.300Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-26T22:55:22.300Z",
      "price": 85
     }
    ]
