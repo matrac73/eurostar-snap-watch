@@ -10,9 +10,9 @@
   "slot": "morning"
  },
  "status": {
-  "scans": 745,
-  "lastScanAt": "2026-11-27T00:25:22.625Z",
-  "lastOkAt": "2026-11-27T00:25:22.625Z",
+  "scans": 746,
+  "lastScanAt": "2026-11-27T00:40:23.445Z",
+  "lastOkAt": "2026-11-27T00:40:23.445Z",
   "errors": 0,
   "errorAlertSent": false,
   "lastError": null
@@ -1828,7 +1828,7 @@
    "releasedAt": "2026-11-23T08:44:41.601Z",
    "notBefore": "2026-11-23T08:29:40.488Z",
    "firstSeenAt": "2026-11-23T08:44:41.601Z",
-   "lastSeenAt": "2026-11-27T00:25:22.625Z",
+   "lastSeenAt": "2026-11-27T00:40:23.445Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -1883,6 +1883,10 @@
     {
      "at": "2026-11-25T19:36:36.625Z",
      "price": 80
+    },
+    {
+     "at": "2026-11-27T00:40:23.445Z",
+     "price": 85
     }
    ]
   },
@@ -2720,7 +2724,7 @@
    "releasedAt": "2026-11-26T08:08:21.521Z",
    "notBefore": "2026-11-26T07:53:20.656Z",
    "firstSeenAt": "2026-11-26T08:08:21.521Z",
-   "lastSeenAt": "2026-11-27T00:25:22.625Z",
+   "lastSeenAt": "2026-11-27T00:40:23.445Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -2742,7 +2746,7 @@
    "releasedAt": "2026-11-26T08:08:21.521Z",
    "notBefore": "2026-11-26T07:53:20.656Z",
    "firstSeenAt": "2026-11-26T08:08:21.521Z",
-   "lastSeenAt": "2026-11-27T00:25:22.625Z",
+   "lastSeenAt": "2026-11-27T00:40:23.445Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -2902,7 +2906,7 @@
    "releasedAt": "2026-11-26T09:08:24.403Z",
    "notBefore": "2026-11-26T08:53:23.862Z",
    "firstSeenAt": "2026-11-26T09:08:24.403Z",
-   "lastSeenAt": "2026-11-27T00:25:22.625Z",
+   "lastSeenAt": "2026-11-27T00:40:23.445Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -3091,8 +3095,8 @@
    "notBefore": "2026-11-26T22:40:21.848Z",
    "firstSeenAt": "2026-11-26T22:55:22.300Z",
    "lastSeenAt": "2026-11-27T00:25:22.625Z",
-   "closedAt": null,
-   "closedReason": null,
+   "closedAt": "2026-11-27T00:40:23.445Z",
+   "closedReason": "closed_eve",
    "prices": [
     {
      "at": "2026-11-26T22:55:22.300Z",
@@ -3135,8 +3139,8 @@
    "notBefore": "2026-11-26T22:55:22.300Z",
    "firstSeenAt": "2026-11-26T23:10:22.248Z",
    "lastSeenAt": "2026-11-27T00:25:22.625Z",
-   "closedAt": null,
-   "closedReason": null,
+   "closedAt": "2026-11-27T00:40:23.445Z",
+   "closedReason": "sold_out",
    "prices": [
     {
      "at": "2026-11-26T23:10:22.248Z",
@@ -3157,8 +3161,8 @@
    "notBefore": "2026-11-26T23:40:22.423Z",
    "firstSeenAt": "2026-11-26T23:55:22.177Z",
    "lastSeenAt": "2026-11-27T00:25:22.625Z",
-   "closedAt": null,
-   "closedReason": null,
+   "closedAt": "2026-11-27T00:40:23.445Z",
+   "closedReason": "sold_out",
    "prices": [
     {
      "at": "2026-11-26T23:55:22.177Z",
