@@ -10,9 +10,9 @@
   "slot": "morning"
  },
  "status": {
-  "scans": 842,
-  "lastScanAt": "2026-11-27T23:42:59.531Z",
-  "lastOkAt": "2026-11-27T23:42:59.531Z",
+  "scans": 843,
+  "lastScanAt": "2026-11-27T23:58:00.224Z",
+  "lastOkAt": "2026-11-27T23:58:00.224Z",
   "errors": 0,
   "errorAlertSent": false,
   "lastError": null
@@ -1828,7 +1828,7 @@
    "releasedAt": "2026-11-23T08:44:41.601Z",
    "notBefore": "2026-11-23T08:29:40.488Z",
    "firstSeenAt": "2026-11-23T08:44:41.601Z",
-   "lastSeenAt": "2026-11-27T23:42:59.531Z",
+   "lastSeenAt": "2026-11-27T23:58:00.224Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -3344,7 +3344,7 @@
    "releasedAt": "2026-11-27T14:42:16.656Z",
    "notBefore": "2026-11-27T14:27:17.253Z",
    "firstSeenAt": "2026-11-27T14:42:16.656Z",
-   "lastSeenAt": "2026-11-27T23:42:59.531Z",
+   "lastSeenAt": "2026-11-27T23:58:00.224Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -3366,7 +3366,7 @@
    "releasedAt": "2026-11-27T14:42:16.656Z",
    "notBefore": "2026-11-27T14:27:17.253Z",
    "firstSeenAt": "2026-11-27T14:42:16.656Z",
-   "lastSeenAt": "2026-11-27T23:42:59.531Z",
+   "lastSeenAt": "2026-11-27T23:58:00.224Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -3432,7 +3432,7 @@
    "releasedAt": "2026-11-27T16:12:17.520Z",
    "notBefore": "2026-11-27T15:57:17.085Z",
    "firstSeenAt": "2026-11-27T16:12:17.520Z",
-   "lastSeenAt": "2026-11-27T23:42:59.531Z",
+   "lastSeenAt": "2026-11-27T23:58:00.224Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -3542,7 +3542,7 @@
    "releasedAt": "2026-11-27T23:12:59.394Z",
    "notBefore": "2026-11-27T22:57:58.603Z",
    "firstSeenAt": "2026-11-27T23:12:59.394Z",
-   "lastSeenAt": "2026-11-27T23:42:59.531Z",
+   "lastSeenAt": "2026-11-27T23:58:00.224Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
