@@ -10,9 +10,9 @@
   "slot": "morning"
  },
  "status": {
-  "scans": 845,
-  "lastScanAt": "2026-11-28T00:28:01.389Z",
-  "lastOkAt": "2026-11-28T00:28:01.389Z",
+  "scans": 846,
+  "lastScanAt": "2026-11-28T00:43:01.708Z",
+  "lastOkAt": "2026-11-28T00:43:01.708Z",
   "errors": 0,
   "errorAlertSent": false,
   "lastError": null
@@ -1829,8 +1829,8 @@
    "notBefore": "2026-11-23T08:29:40.488Z",
    "firstSeenAt": "2026-11-23T08:44:41.601Z",
    "lastSeenAt": "2026-11-27T23:58:00.224Z",
-   "closedAt": null,
-   "closedReason": null,
+   "closedAt": "2026-11-28T00:43:01.708Z",
+   "closedReason": "expired",
    "prices": [
     {
      "at": "2026-11-23T08:44:41.601Z",
@@ -3344,7 +3344,7 @@
    "releasedAt": "2026-11-27T14:42:16.656Z",
    "notBefore": "2026-11-27T14:27:17.253Z",
    "firstSeenAt": "2026-11-27T14:42:16.656Z",
-   "lastSeenAt": "2026-11-28T00:28:01.389Z",
+   "lastSeenAt": "2026-11-28T00:43:01.708Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -3366,7 +3366,7 @@
    "releasedAt": "2026-11-27T14:42:16.656Z",
    "notBefore": "2026-11-27T14:27:17.253Z",
    "firstSeenAt": "2026-11-27T14:42:16.656Z",
-   "lastSeenAt": "2026-11-28T00:28:01.389Z",
+   "lastSeenAt": "2026-11-28T00:43:01.708Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
@@ -3432,13 +3432,17 @@
    "releasedAt": "2026-11-27T16:12:17.520Z",
    "notBefore": "2026-11-27T15:57:17.085Z",
    "firstSeenAt": "2026-11-27T16:12:17.520Z",
-   "lastSeenAt": "2026-11-28T00:28:01.389Z",
+   "lastSeenAt": "2026-11-28T00:43:01.708Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
     {
      "at": "2026-11-27T16:12:17.520Z",
      "price": 70
+    },
+    {
+     "at": "2026-11-28T00:43:01.708Z",
+     "price": 60
     }
    ]
   },
@@ -3542,13 +3546,35 @@
    "releasedAt": "2026-11-27T23:12:59.394Z",
    "notBefore": "2026-11-27T22:57:58.603Z",
    "firstSeenAt": "2026-11-27T23:12:59.394Z",
-   "lastSeenAt": "2026-11-28T00:28:01.389Z",
+   "lastSeenAt": "2026-11-28T00:43:01.708Z",
    "closedAt": null,
    "closedReason": null,
    "prices": [
     {
      "at": "2026-11-27T23:12:59.394Z",
      "price": 40
+    }
+   ]
+  },
+  {
+   "id": "2026-12-01|morning|2026-11-28T00:43:01.708Z",
+   "date": "2026-12-01",
+   "period": "morning",
+   "time": "07:09",
+   "from": "07:09",
+   "to": "14:00",
+   "cur": "€",
+   "baseline": false,
+   "releasedAt": "2026-11-28T00:43:01.708Z",
+   "notBefore": "2026-11-28T00:28:01.389Z",
+   "firstSeenAt": "2026-11-28T00:43:01.708Z",
+   "lastSeenAt": "2026-11-28T00:43:01.708Z",
+   "closedAt": null,
+   "closedReason": null,
+   "prices": [
+    {
+     "at": "2026-11-28T00:43:01.708Z",
+     "price": 70
     }
    ]
   }
